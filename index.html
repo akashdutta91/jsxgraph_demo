@@ -1,0 +1,396 @@
+<head>
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" type="text/css" href="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraph.css" />
+	<script type="text/javascript" src="http://jsxgraph.uni-bayreuth.de/distrib/jsxgraphcore.js"></script>
+	<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+	<!-- <div>
+		<select id="eqnSelect">
+			<option value="0">x-squared</option>
+			<option value="1">square root of x</option>
+			<option value="2">mod of x</option>
+			<option value="3">x</option>
+			<option value="4">x-cubed</option>
+			<option value="5">complex equation</option>
+		</select>
+	</div> -->
+	<div class="eqnControls">
+		<button id="eqnDropdown" class="eqnDropdown" role="dropdown" onclick="showEqnList()">
+			<math xmlns="http://www.w3.org/1998/Math/MathML">
+			  <msup><mi>x</mi><mn>2</mn></msup>
+			</math>
+			<span class="caret"></span>
+		</button>
+		<ul id="eqnList">
+			<li onmouseenter="changeListBg(this)" onmouseleave="resetListBg(this)" onclick="generateGraph(1)">
+				<math xmlns="http://www.w3.org/1998/Math/MathML">
+				  <msup><mi>x</mi><mn>2</mn></msup>
+				</math>
+			</li>
+			<li onmouseenter="changeListBg(this)" onmouseleave="resetListBg(this)" onclick="generateGraph(2)">
+				<math xmlns="http://www.w3.org/1998/Math/MathML">
+					<msqrt><mi>x</mi></msqrt>
+				</math>
+			</li>
+			<li onmouseenter="changeListBg(this)" onmouseleave="resetListBg(this)" onclick="generateGraph(3)">
+				<math xmlns="http://www.w3.org/1998/Math/MathML">
+					<mo>|</mo><mi>x</mi><mo>|</mo>
+				</math>
+			</li>
+			<li onmouseenter="changeListBg(this)" onmouseleave="resetListBg(this)" onclick="generateGraph(4)">
+				<math xmlns="http://www.w3.org/1998/Math/MathML">
+					<mi>x</mi>
+				</math>
+			</li>
+			<li onmouseenter="changeListBg(this)" onmouseleave="resetListBg(this)"  onclick="generateGraph(5)">
+				<math xmlns="http://www.w3.org/1998/Math/MathML">
+				  <msup><mi>x</mi><mn>3</mn></msup>
+				</math>
+			</li>
+			<li onmouseenter="changeListBg(this)" onmouseleave="resetListBg(this)" onclick="generateGraph(6)">
+				<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+				  <mrow>
+				    <mfrac>
+				      <mrow>
+				        <mi>10</mi>
+				        <msup><mi>x</mi><mn>2</mn></msup>
+				        <mo>+</mo>
+				        <mi>20></mi><mi>x</mi>
+				      </mrow>
+				      <mrow>
+				      	<msup><mi>x</mi><mn>4</mn></msup>
+				      	<mo>+</mo>
+				      	<mi>4</mi>
+				      </mrow>
+				    </mfrac>
+				  </mrow>
+				</math>
+			</li>
+		</ul>
+		<div style="margin-top: '20px'">
+			<p style="font-size: larger; font-weight: bold">Transformations</p>
+			<div class="transformationSliders">	
+				<p>
+					<math xmlns="http://www.w3.org/1998/Math/MathML">
+						<mi>y</mi><mo>=</mo><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>+</mo><mi>d</mi>
+					</math>
+				</p>
+				<span><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>d</mi></math></span>
+				<input type="range" min="-5" max="5" step="0.01" value="0" onchange="d_Modified(this, 0)">
+				<span class="rangeIndicator" id="rangeIndicator_0">0</span>
+			</div>
+			<div class="transformationSliders">	
+				<p>
+					<math xmlns="http://www.w3.org/1998/Math/MathML">
+						<mi>y</mi><mo>=</mo><mi>f</mi><mo>(</mo><mi>x</mi><mo>+</mo><mi>c</mi><mo>)</mo>
+					</math>
+				</p>
+				<span><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>c</mi></math></span>
+				<input type="range" min="-5" max="5" step="0.01" value="0" onchange="c_Modified(this, 1)">
+				<span class="rangeIndicator" id="rangeIndicator_1">0</span>
+			</div>
+			<div class="transformationSliders">	
+				<p>
+					<math xmlns="http://www.w3.org/1998/Math/MathML">
+						<mi>y</mi><mo>=</mo><mi>f</mi><mo>(</mo><mi>b</mi><mi>x</mi><mo>)</mo>
+					</math>
+				</p>
+				<span><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>b</mi></math></span>
+				<input type="range" min="-5" max="5" step="0.01" value="1" onchange="b_Modified(this, 2)">
+				<span class="rangeIndicator" id="rangeIndicator_2">1</span>
+			</div>
+			<div class="transformationSliders">	
+				<p>
+					<math xmlns="http://www.w3.org/1998/Math/MathML">
+						<mi>y</mi><mo>=</mo><mi>a</mi><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo>
+					</math>
+				</p>
+				<span><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>a</mi></math></span>
+				<input type="range" min="-5" max="5" step="0.01" value="1" onchange="a_Modified(this, 3)">
+				<span class="rangeIndicator" id="rangeIndicator_3">1</span>
+			</div>
+			<div class="transformationSliders">	
+				<p>
+					<span>
+						<span><input type="checkbox" onchange="reflectCurrentGraphs(this, 1)"/></span>
+						<math xmlns="http://www.w3.org/1998/Math/MathML">
+							<mi>y</mi><mo>=</mo><mo>-</mo><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo>
+						</math>
+					</span>	
+					<span>	
+						<span><input type="checkbox" onchange="reflectCurrentGraphs(this, 2)"/></span>
+						<math xmlns="http://www.w3.org/1998/Math/MathML">
+							<mi>y</mi><mo>=</mo><mi>f</mi><mo>(</mo><mo>-</mo><mi>x</mi><mo>)</mo>
+						</math>
+					</span>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div id="jxgbox" class="jxgbox" style="width:500px; height:500px;"></div>
+	<script type="text/javascript">
+	 	var brd = JXG.JSXGraph.initBoard('jxgbox', {boundingbox: [-10, 10, 10, -10], axis:true});
+	 	var currentGraphIndex = 0;
+	 	var isDrawn = false;
+	    /*a = brd.create('slider',[[2,-5],[7,-5],[-5,1,5]], {name:'a'}),
+	    b = brd.create('slider',[[2,-6],[7,-6],[-5,0,5]], {name:'b'}),
+	    c = brd.create('slider',[[2,-7],[7,-7],[-5,0,5]], {name:'c'}),*/
+	    /*document.getElementById("eqnSelect").addEventListener("change", function(event){
+	    	console.log(this.value);
+	    	generateGraph(this.value);
+	    });*/
+	    localStorage.setItem("d_value", "0");
+	    localStorage.setItem("c_value", "0");
+	    localStorage.setItem("b_value", "1");
+	    localStorage.setItem("a_value", "1");
+	    generateGraph();
+	    function generateGraph(index){
+	    	/*JXG.JSXGraph.freeBoard(board);
+		    board = JXG.JSXGraph.initBoard('box', {boundingbox:[-5,8,8,-5], axis:true});
+		    p = board.create('point', [3,-4], {style:6, name:'p'}); 
+		    return board;*/
+	        if(index){
+	        	currentGraphIndex = index;
+	        	JXG.JSXGraph.freeBoard(brd);
+	        	isDrawn = false;
+	        	brd = JXG.JSXGraph.initBoard('jxgbox', {boundingbox: [-10, 10, 10, -10], axis:true});
+	        	if(index == 1){
+	        		f = brd.create('functiongraph',[function(a){
+			            return Math.pow(a,2);
+			        }]);
+			        var mathEq = '<math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mi>x</mi><mn>2</mn></msup></math><span class="caret"></span>';
+			        $("#eqnDropdown").html(mathEq);
+			        var mathEl = document.getElementById("eqnDropdown"); 
+			        MathJax.Hub.Typeset()
+	        	}
+	        	else if(index == 2){
+	        		f = brd.create('functiongraph',[function(a){
+			            return Math.sqrt(a);
+			        }]);
+			        var mathEq = '<math xmlns="http://www.w3.org/1998/Math/MathML"><msqrt><mi>x</mi></msqrt></math><span class="caret"></span>';
+			        $("#eqnDropdown").html(mathEq);
+			        MathJax.Hub.Typeset();
+	        	}
+	        	else if(index == 3){
+	        		f = brd.create('functiongraph',[function(a){
+			            return Math.abs(a);
+			        }]);
+			        var mathEq = '<math xmlns="http://www.w3.org/1998/Math/MathML"><mo>|</mo><mi>x</mi><mo>|</mo></math><span class="caret"></span>';
+			        $("#eqnDropdown").html(mathEq);
+			        MathJax.Hub.Typeset();
+	        	}
+	        	else if(index == 4){
+	        		f = brd.create('functiongraph',[function(a){
+			            return a;
+			        }]);
+			        var mathEq = '<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>x</mi></math><span class="caret"></span>';
+			        $("#eqnDropdown").html(mathEq);
+			        MathJax.Hub.Typeset();
+	        	}
+	        	else if(index == 5){
+	        		f = brd.create('functiongraph',[function(a){
+			            return Math.pow(a,3);
+			        }]);
+			        var mathEq = '<math xmlns="http://www.w3.org/1998/Math/MathML"><msup><mi>x</mi><mn>3</mn></msup></math><span class="caret"></span>';
+			        $("#eqnDropdown").html(mathEq);
+			        MathJax.Hub.Typeset();
+	        	}
+	        	else if(index == 6){
+	        		f = brd.create('functiongraph',[function(a){
+			            return (10*Math.pow(a,2)+20*a)/(Math.pow(a,4)+4);
+			        }]);
+			        var mathEq = '<math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>'+
+				    '<mfrac>'+
+				      '<mrow>'+
+				        '<mi>10</mi>'+
+				        '<msup><mi>x</mi><mn>2</mn></msup>'+
+				        '<mo>+</mo>'+
+				        '<mi>20></mi><mi>x</mi>'+
+				      '</mrow>'+
+				      '<mrow>'+
+				      	'<msup><mi>x</mi><mn>4</mn></msup>'+
+				      	'<mo>+</mo>'+
+				      	'<mi>4</mi>'+
+				      '</mrow>'+
+				    '</mfrac>'+
+				  '</mrow></math><span class="caret"></span>';
+			        $("#eqnDropdown").html(mathEq);
+			        MathJax.Hub.Typeset();
+	        	}
+	        	document.getElementById("eqnList").style.display = "none";
+	        }
+	        else{
+	        	f = brd.create('functiongraph',[function(a){
+		            return Math.pow(a,2);
+		        }]);
+	        }
+	    }
+	    function commonFunc(f){
+    		var tempGraph = brd.create('functiongraph',[function(x){
+	    		isDrawn = true;
+			    return f(x);
+			}], {strokeColor: "red"});
+			return tempGraph;
+    	}
+
+    	function generateTransformedGraph(){
+    		var d_value = localStorage.d_value;
+	    	var c_value = localStorage.c_value;
+	    	var b_value = localStorage.b_value;
+	    	var a_value = localStorage.a_value;
+	    	if([0,1].indexOf(currentGraphIndex)>-1){
+	    		function f(x){
+	    			return parseFloat(a_value)*Math.pow(parseFloat(b_value)*(x + parseFloat(c_value)),2)+parseFloat(d_value);
+	    		}
+	    		if(isDrawn){
+	    			graph.Y = function(x){
+	    				return f(x);
+	    			};
+	    			graph.updateCurve();
+	    			brd.update();
+	    		}
+	    		else{
+	    			graph = commonFunc(f);
+	    		}
+	    	}
+	    	else if(currentGraphIndex == 2){
+	    		function f(x){
+	    			return parseFloat(a_value)*Math.sqrt(parseFloat(b_value)*(x + parseFloat(c_value)))+parseFloat(d_value);
+	    		}
+	    		if(isDrawn){
+	    			graph.Y = function(x){
+	    				return f(x);
+	    			};
+	    			graph.updateCurve();
+	    			brd.update();
+	    		}
+	    		else{
+	    			graph = commonFunc(f);
+	    		}
+	    	}
+	    	else if(currentGraphIndex == 3){
+	    		function f(x){
+	    			return parseFloat(a_value)*Math.abs(parseFloat(b_value)*(x + parseFloat(c_value)))+parseFloat(d_value);
+	    		}
+	    		if(isDrawn){
+	    			graph.Y = function(x){
+	    				return f(x);
+	    			};
+	    			graph.updateCurve();
+	    			brd.update();
+	    		}
+	    		else{
+	    			graph = commonFunc(f);
+	    		}
+	    	}
+	    	else if(currentGraphIndex == 4){
+	    		function f(x){
+	    			return (parseFloat(a_value)*(parseFloat(b_value)*(x + parseFloat(c_value))))+parseFloat(d_value);
+	    		}
+	    		if(isDrawn){
+	    			graph.Y = function(x){
+	    				return f(x);
+	    			};
+	    			graph.updateCurve();
+	    			brd.update();
+	    		}
+	    		else{
+	    			graph = commonFunc(f);
+	    		}
+	    	}
+	    	else if(currentGraphIndex == 5){
+	    		function f(x){
+	    			return parseFloat(a_value)*Math.pow(parseFloat(b_value)*(x + parseFloat(c_value)),3)+parseFloat(d_value);
+	    		}
+	    		if(isDrawn){
+	    			graph.Y = function(x){
+	    				return f(x);
+	    			};
+	    			graph.updateCurve();
+	    			brd.update();
+	    		}
+	    		else{
+	    			graph = commonFunc(f);
+	    		}
+	    	}
+	    	else if(currentGraphIndex == 6){
+	    		function f(x){
+	    			return parseFloat(a_value)*((10*Math.pow(parseFloat(b_value)*(x+parseFloat(c_value)),2)+20*(parseFloat(b_value)*(x+parseFloat(c_value))))/(Math.pow(parseFloat(b_value)*(x+parseFloat(c_value)),4)+4))+parseFloat(d_value);
+	    		}
+	    		if(isDrawn){
+	    			graph.Y = function(x){
+	    				return f(x);
+	    			};
+	    			graph.updateCurve();
+	    			brd.update();
+	    		}
+	    		else{
+	    			graph = commonFunc(f);
+	    		}
+	    	}
+    	}
+
+
+	    function changeListBg(that){
+	    	that.style.backgroundColor = "#B4D5FE";
+	    }
+	    function resetListBg(that){
+	    	that.style.backgroundColor = "";
+	    }
+	    function showEqnList(){
+	    	var tempEl = document.getElementById("eqnList");
+	    	if(tempEl.style.display == "none" || tempEl.style.display == ""){
+	    		tempEl.style.display = "block";
+	    	}
+	    	else{
+	    		tempEl.style.display = "none";	
+	    	}
+	    }
+	    function d_Modified(that, index){
+	    	var displaySliderValEl = "#rangeIndicator_"+index;
+	    	$(displaySliderValEl).text(that.value);
+	    	// generateGraph_D(that.value);
+	    	localStorage.setItem("d_value", that.value);
+	    	generateTransformedGraph();
+	    }
+	    function c_Modified(that, index){
+	    	var displaySliderValEl = "#rangeIndicator_"+index;
+	    	$(displaySliderValEl).text(that.value);
+	    	// generateGraph_C(that.value);
+	    	localStorage.setItem("c_value", that.value);
+	    	generateTransformedGraph();
+	    }
+	    function b_Modified(that, index){
+	    	var displaySliderValEl = "#rangeIndicator_"+index;
+	    	$(displaySliderValEl).text(that.value);
+	    	// generateGraph_B(that.value);
+	    	localStorage.setItem("b_value", that.value);
+	    	generateTransformedGraph();
+	    }
+	    function a_Modified(that, index){
+	    	var displaySliderValEl = "#rangeIndicator_"+index;
+	    	$(displaySliderValEl).text(that.value);
+	    	// generateGraph_B(that.value);
+	    	localStorage.setItem("a_value", that.value);
+	    	generateTransformedGraph();
+	    }
+	    function reflectCurrentGraphs(that, index){
+	    	console.log(that.checked);
+	    	var a_value = parseFloat(localStorage.a_value);
+	    	var b_value = parseFloat(localStorage.b_value);
+	    	if(index == 1){
+	    		localStorage.setItem("a_value", a_value*(-1));
+		    	generateTransformedGraph();
+	    	}
+	    	else if(index == 2){
+	    		localStorage.setItem("b_value", b_value*(-1));
+		    	generateTransformedGraph();	
+	    	}
+	    }
+	    //var p2 = brd.create('glider',[0,0,f]);
+	</script>
+</body>
