@@ -8,16 +8,6 @@
 	<link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 <body>
-	<!-- <div>
-		<select id="eqnSelect">
-			<option value="0">x-squared</option>
-			<option value="1">square root of x</option>
-			<option value="2">mod of x</option>
-			<option value="3">x</option>
-			<option value="4">x-cubed</option>
-			<option value="5">complex equation</option>
-		</select>
-	</div> -->
 	<div class="eqnControls">
 		<button id="eqnDropdown" class="eqnDropdown" role="dropdown" onclick="showEqnList()">
 			<math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -136,23 +126,12 @@
 	 	var brd = JXG.JSXGraph.initBoard('jxgbox', {boundingbox: [-10, 10, 10, -10], axis:true});
 	 	var currentGraphIndex = 0;
 	 	var isDrawn = false;
-	    /*a = brd.create('slider',[[2,-5],[7,-5],[-5,1,5]], {name:'a'}),
-	    b = brd.create('slider',[[2,-6],[7,-6],[-5,0,5]], {name:'b'}),
-	    c = brd.create('slider',[[2,-7],[7,-7],[-5,0,5]], {name:'c'}),*/
-	    /*document.getElementById("eqnSelect").addEventListener("change", function(event){
-	    	console.log(this.value);
-	    	generateGraph(this.value);
-	    });*/
 	    localStorage.setItem("d_value", "0");
 	    localStorage.setItem("c_value", "0");
 	    localStorage.setItem("b_value", "1");
 	    localStorage.setItem("a_value", "1");
 	    generateGraph();
 	    function generateGraph(index){
-	    	/*JXG.JSXGraph.freeBoard(board);
-		    board = JXG.JSXGraph.initBoard('box', {boundingbox:[-5,8,8,-5], axis:true});
-		    p = board.create('point', [3,-4], {style:6, name:'p'}); 
-		    return board;*/
 	        if(index){
 	        	currentGraphIndex = index;
 	        	JXG.JSXGraph.freeBoard(brd);
@@ -391,6 +370,6 @@
 		    	generateTransformedGraph();	
 	    	}
 	    }
-	    //var p2 = brd.create('glider',[0,0,f]);
+	    
 	</script>
 </body>
